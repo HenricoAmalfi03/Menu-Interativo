@@ -23,9 +23,9 @@ Sistema de cardápio digital com painel administrativo integrado ao Supabase.
 
 ### 1. Criar as Tabelas no Banco de Dados
 
-1. Acesse seu projeto no Supabase: https://vmrbrueqmotgvpnatsso.supabase.co
+1. Acesse seu projeto no Supabase:
 2. Vá em **SQL Editor** no menu lateral
-3. Copie todo o conteúdo do arquivo `supabase-schema.sql`
+3. Copie todo o conteúdo do arquivo
 4. Cole no editor SQL e clique em **Run**
 
 Isso criará todas as tabelas necessárias: `categories`, `products`, `waiters` e `orders`.
@@ -43,7 +43,6 @@ Para permitir que o aplicativo funcione corretamente, você precisa desabilitar 
 
 ### 3. Verificar Autenticação
 
-O sistema usa o email `kernelpanic10190@gmail.com` cadastrado no Supabase Auth:
 
 1. Vá em **Authentication** > **Users**
 2. Verifique se o usuário existe
@@ -51,17 +50,9 @@ O sistema usa o email `kernelpanic10190@gmail.com` cadastrado no Supabase Auth:
 
 ## Configuração de Variáveis de Ambiente (OBRIGATÓRIO)
 
-O sistema requer que as credenciais do Supabase sejam configuradas através de variáveis de ambiente:
+O sistema requer que as credenciais do Supabase sejam configuradas através de variáveis de ambiente
 
-1. Copie o arquivo `.env.example` para `.env`:
-   ```bash
-   cp .env.example .env
-   ```
 
-2. As credenciais já estão pré-configuradas no `.env.example` para o projeto de demonstração
-3. Se estiver usando seu próprio projeto Supabase, edite o `.env` com suas credenciais
-
-**Importante:** O arquivo `.env` não deve ser commitado no repositório (já está no .gitignore).
 
 ## Como Usar
 
@@ -135,5 +126,6 @@ O servidor estará disponível em `http://localhost:5000`
 
 ## Suporte
 
-Para questões técnicas, consulte a documentação do Supabase:
-- https://supabase.com/docs
+Fé em cristo, foram 6 horas resolvendo bug.
+
+Gostaria de agradecer à minha labradora que mordeu o cabo do meu teclado. 
