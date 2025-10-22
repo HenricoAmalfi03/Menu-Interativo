@@ -4,42 +4,18 @@ import { Plus, Pencil, Trash2, Loader2, Tag } from "lucide-react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import {
-  insertProductSchema,
-  type Product,
-  type InsertProduct,
-  type Category,
-} from "@shared/schema";
+import { insertProductSchema, type Product, type InsertProduct, type Category } from "@shared/schema";
 
 export default function ProductsPage() {
   const { toast } = useToast();
@@ -47,15 +23,11 @@ export default function ProductsPage() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  const { data: products = [], isLoading: loadingProducts } = useQuery<
-    Product[]
-  >({
+  const { data: products = [], isLoading: loadingProducts } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
 
-  const { data: categories = [], isLoading: loadingCategories } = useQuery<
-    Category[]
-  >({
+  const { data: categories = [], isLoading: loadingCategories } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
   });
 
@@ -76,8 +48,7 @@ export default function ProductsPage() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: InsertProduct) =>
-      apiRequest("POST", "/api/products", data),
+    mutationFn: (data: InsertProduct) => apiRequest("POST", "/api/products", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       toast({ title: "Produto criado com sucesso!" });
@@ -152,10 +123,9 @@ export default function ProductsPage() {
     form.reset();
   };
 
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((p) => p.category_id === selectedCategory);
+  const filteredProducts = selectedCategory === "all"
+    ? products
+    : products.filter(p => p.category_id === selectedCategory);
 
   const isLoading = loadingProducts || loadingCategories;
 
@@ -169,7 +139,7 @@ export default function ProductsPage() {
               Gerencie os produtos do cardápio
             </p>
           </div>
-
+          
           {/* Dialog corrigido */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
@@ -201,17 +171,14 @@ export default function ProductsPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Categoria</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value}
-                        >
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger data-testid="select-product-category">
                               <SelectValue placeholder="Selecione uma categoria" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {categories.map((cat) => (
+                            {categories.map(cat => (
                               <SelectItem key={cat.id} value={cat.id}>
                                 {cat.name}
                               </SelectItem>
@@ -244,10 +211,7 @@ export default function ProductsPage() {
                       <FormItem>
                         <FormLabel>Descrição (opcional)</FormLabel>
                         <FormControl>
-                          <Textarea
-                            {...field}
-                            data-testid="input-product-description"
-                          />
+                          <Textarea {...field} data-testid="input-product-description" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -265,9 +229,7 @@ export default function ProductsPage() {
                             type="number"
                             step="0.01"
                             {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
+                            onChange={(e) => field.onChange(parseFloat(e.target.value))}
                             data-testid="input-product-price"
                           />
                         </FormControl>
@@ -305,9 +267,7 @@ export default function ProductsPage() {
                     render={({ field }) => (
                       <FormItem className="flex items-center justify-between rounded-lg border p-4">
                         <div className="space-y-0.5">
-                          <FormLabel className="text-base">
-                            Em Promoção
-                          </FormLabel>
+                          <FormLabel className="text-base">Em Promoção</FormLabel>
                           <div className="text-sm text-muted-foreground">
                             Ativar preço promocional
                           </div>
@@ -336,9 +296,7 @@ export default function ProductsPage() {
                                 type="number"
                                 step="0.01"
                                 {...field}
-                                onChange={(e) =>
-                                  field.onChange(parseFloat(e.target.value))
-                                }
+                                onChange={(e) => field.onChange(parseFloat(e.target.value))}
                                 data-testid="input-promotion-price"
                               />
                             </FormControl>
@@ -355,11 +313,7 @@ export default function ProductsPage() {
                             <FormItem>
                               <FormLabel>Início da Promoção</FormLabel>
                               <FormControl>
-                                <Input
-                                  type="date"
-                                  {...field}
-                                  data-testid="input-promotion-start"
-                                />
+                                <Input type="date" {...field} data-testid="input-promotion-start" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -373,11 +327,7 @@ export default function ProductsPage() {
                             <FormItem>
                               <FormLabel>Fim da Promoção</FormLabel>
                               <FormControl>
-                                <Input
-                                  type="date"
-                                  {...field}
-                                  data-testid="input-promotion-end"
-                                />
+                                <Input type="date" {...field} data-testid="input-promotion-end" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -421,12 +371,10 @@ export default function ProductsPage() {
                     <Button
                       type="submit"
                       className="flex-1"
-                      disabled={
-                        createMutation.isPending || updateMutation.isPending
-                      }
+                      disabled={createMutation.isPending || updateMutation.isPending}
                       data-testid="button-save-product"
                     >
-                      {createMutation.isPending || updateMutation.isPending ? (
+                      {(createMutation.isPending || updateMutation.isPending) ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Salvando...
@@ -451,7 +399,7 @@ export default function ProductsPage() {
           >
             Todos
           </Button>
-          {categories.map((cat) => (
+          {categories.map(cat => (
             <Button
               key={cat.id}
               variant={selectedCategory === cat.id ? "default" : "outline"}
@@ -479,14 +427,9 @@ export default function ProductsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredProducts.map((product) => {
-              const category = categories.find(
-                (c) => c.id === product.category_id,
-              );
+              const category = categories.find(c => c.id === product.category_id);
               return (
-                <Card
-                  key={product.id}
-                  data-testid={`card-product-${product.id}`}
-                >
+                <Card key={product.id} data-testid={`card-product-${product.id}`}>
                   <CardContent className="p-6">
                     {product.image_url ? (
                       <img
@@ -499,12 +442,9 @@ export default function ProductsPage() {
                         <Tag className="w-8 h-8 text-muted-foreground" />
                       </div>
                     )}
-
+                    
                     <div className="flex items-start justify-between mb-2">
-                      <h3
-                        className="font-semibold text-lg"
-                        data-testid={`text-product-name-${product.id}`}
-                      >
+                      <h3 className="font-semibold text-lg" data-testid={`text-product-name-${product.id}`}>
                         {product.name}
                       </h3>
                       <Badge variant={product.active ? "default" : "secondary"}>
@@ -525,17 +465,12 @@ export default function ProductsPage() {
                     )}
 
                     <div className="mb-4">
-                      <span
-                        className="text-2xl font-bold text-primary"
-                        data-testid={`text-price-${product.id}`}
-                      >
+                      <span className="text-2xl font-bold text-primary" data-testid={`text-price-${product.id}`}>
                         R$ {product.price.toFixed(2)}
                       </span>
                       {product.is_promotion && product.promotion_price && (
                         <div className="mt-1">
-                          <Badge variant="destructive" className="mr-2">
-                            Promoção
-                          </Badge>
+                          <Badge variant="destructive" className="mr-2">Promoção</Badge>
                           <span className="text-xl font-bold text-destructive">
                             R$ {product.promotion_price.toFixed(2)}
                           </span>
