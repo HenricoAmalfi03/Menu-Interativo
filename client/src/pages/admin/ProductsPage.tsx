@@ -81,7 +81,8 @@ export default function ProductsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       toast({ title: "Produto criado com sucesso!" });
-      handleDialogClose();
+      setIsDialogOpen(false);
+      form.reset();
     },
     onError: () => {
       toast({ variant: "destructive", title: "Erro ao criar produto" });
@@ -94,7 +95,9 @@ export default function ProductsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       toast({ title: "Produto atualizado com sucesso!" });
-      handleDialogClose();
+      setIsDialogOpen(false);
+      setEditingProduct(null);
+      form.reset();
     },
     onError: () => {
       toast({ variant: "destructive", title: "Erro ao atualizar produto" });
@@ -167,13 +170,18 @@ export default function ProductsPage() {
             </p>
           </div>
 
+          {/* Dialog corrigido */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button data-testid="button-add-product">
+              <Button
+                data-testid="button-add-product"
+                onClick={() => setIsDialogOpen(true)}
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Novo Produto
               </Button>
             </DialogTrigger>
+
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>
@@ -186,7 +194,7 @@ export default function ProductsPage() {
                   onSubmit={form.handleSubmit(handleSubmit)}
                   className="space-y-4"
                 >
-                  {/* Categoria */}
+                  {/* Campos do formulário */}
                   <FormField
                     control={form.control}
                     name="category_id"
@@ -215,7 +223,6 @@ export default function ProductsPage() {
                     )}
                   />
 
-                  {/* Nome */}
                   <FormField
                     control={form.control}
                     name="name"
@@ -230,7 +237,6 @@ export default function ProductsPage() {
                     )}
                   />
 
-                  {/* Descrição */}
                   <FormField
                     control={form.control}
                     name="description"
@@ -248,7 +254,6 @@ export default function ProductsPage() {
                     )}
                   />
 
-                  {/* Preço */}
                   <FormField
                     control={form.control}
                     name="price"
@@ -271,7 +276,6 @@ export default function ProductsPage() {
                     )}
                   />
 
-                  {/* Imagem */}
                   <FormField
                     control={form.control}
                     name="image_url"
@@ -295,7 +299,6 @@ export default function ProductsPage() {
                     )}
                   />
 
-                  {/* Promoção */}
                   <FormField
                     control={form.control}
                     name="is_promotion"
@@ -362,6 +365,7 @@ export default function ProductsPage() {
                             </FormItem>
                           )}
                         />
+
                         <FormField
                           control={form.control}
                           name="promotion_end"
@@ -383,7 +387,6 @@ export default function ProductsPage() {
                     </>
                   )}
 
-                  {/* Ativo */}
                   <FormField
                     control={form.control}
                     name="active"
@@ -406,7 +409,6 @@ export default function ProductsPage() {
                     )}
                   />
 
-                  {/* Botões */}
                   <div className="flex gap-2">
                     <Button
                       type="button"
@@ -461,7 +463,6 @@ export default function ProductsPage() {
           ))}
         </div>
 
-        {/* Lista de produtos */}
         {isLoading ? (
           <div className="flex items-center justify-center min-h-[400px]">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
