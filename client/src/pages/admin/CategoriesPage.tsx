@@ -116,7 +116,7 @@ export default function CategoriesPage() {
             </p>
           </div>
           
-          <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button data-testid="button-add-category">
                 <Plus className="w-4 h-4 mr-2" />
@@ -282,6 +282,7 @@ export default function CategoriesPage() {
                       size="sm"
                       onClick={() => handleDelete(category.id)}
                       disabled={deleteMutation.isPending}
+                      className="flex-1"
                       data-testid={`button-delete-${category.id}`}
                     >
                       <Trash2 className="w-3 h-3 mr-1" />
