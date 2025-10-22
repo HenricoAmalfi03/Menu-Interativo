@@ -49,19 +49,19 @@ O sistema usa o email `kernelpanic10190@gmail.com` cadastrado no Supabase Auth:
 2. Verifique se o usuário existe
 3. Se não existir, crie um novo usuário com email e senha
 
-## Configuração de Variáveis de Ambiente (Opcional)
+## Configuração de Variáveis de Ambiente (OBRIGATÓRIO)
 
-Para maior segurança, você pode configurar as credenciais do Supabase como variáveis de ambiente:
+O sistema requer que as credenciais do Supabase sejam configuradas através de variáveis de ambiente:
 
-1. Copie o arquivo `.env.example` para `.env`
-2. Preencha com suas credenciais:
+1. Copie o arquivo `.env.example` para `.env`:
+   ```bash
+   cp .env.example .env
+   ```
 
-```
-VITE_SUPABASE_URL=https://vmrbrueqmotgvpnatsso.supabase.co
-VITE_SUPABASE_ANON_KEY=sua_chave_aqui
-```
+2. As credenciais já estão pré-configuradas no `.env.example` para o projeto de demonstração
+3. Se estiver usando seu próprio projeto Supabase, edite o `.env` com suas credenciais
 
-**Nota:** As credenciais já estão configuradas no código para desenvolvimento. O uso de `.env` é opcional mas recomendado para produção.
+**Importante:** O arquivo `.env` não deve ser commitado no repositório (já está no .gitignore).
 
 ## Como Usar
 

@@ -2,9 +2,14 @@ import { createClient } from '@supabase/supabase-js';
 import type { Category, InsertCategory, Product, InsertProduct, Waiter, InsertWaiter, Order, InsertOrder } from "@shared/schema";
 
 // Supabase configuration from environment variables
-// Fallback values are provided for development only - in production these should be in secrets
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://vmrbrueqmotgvpnatsso.supabase.co';
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtcmJydWVxbW90Z3ZwbmF0c3NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExMTg3OTcsImV4cCI6MjA3NjY5NDc5N30.3MYoipp2KcBU1gKFmRl2OZTAkIbkl5YIEywVbBDex4U';
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error(
+    'Supabase credentials not configured. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.'
+  );
+}
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
