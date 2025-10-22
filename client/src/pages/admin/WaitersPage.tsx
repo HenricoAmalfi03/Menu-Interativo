@@ -4,8 +4,21 @@ import { Plus, Pencil, Trash2, Loader2, User } from "lucide-react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +27,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { insertWaiterSchema, type Waiter, type InsertWaiter } from "@shared/schema";
+import {
+  insertWaiterSchema,
+  type Waiter,
+  type InsertWaiter,
+} from "@shared/schema";
 
 export default function WaitersPage() {
   const { toast } = useToast();
@@ -36,12 +53,12 @@ export default function WaitersPage() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: InsertWaiter) => apiRequest("POST", "/api/waiters", data),
+    mutationFn: (data: InsertWaiter) =>
+      apiRequest("POST", "/api/waiters", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/waiters"] });
       toast({ title: "Garçom cadastrado com sucesso!" });
-      setIsDialogOpen(false);
-      form.reset();
+      handleDialogClose();
     },
     onError: () => {
       toast({ variant: "destructive", title: "Erro ao cadastrar garçom" });
@@ -54,9 +71,7 @@ export default function WaitersPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/waiters"] });
       toast({ title: "Garçom atualizado com sucesso!" });
-      setIsDialogOpen(false);
-      setEditingWaiter(null);
-      form.reset();
+      handleDialogClose();
     },
     onError: () => {
       toast({ variant: "destructive", title: "Erro ao atualizar garçom" });
@@ -115,8 +130,9 @@ export default function WaitersPage() {
               Gerencie os garçons que atendem os pedidos
             </p>
           </div>
-          
-          <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+
+          {/* Corrigido: usar setIsDialogOpen no onOpenChange */}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button data-testid="button-add-waiter">
                 <Plus className="w-4 h-4 mr-2" />
@@ -129,9 +145,12 @@ export default function WaitersPage() {
                   {editingWaiter ? "Editar Garçom" : "Novo Garçom"}
                 </DialogTitle>
               </DialogHeader>
-              
+
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(handleSubmit)}
+                  className="space-y-4"
+                >
                   <FormField
                     control={form.control}
                     name="name"
@@ -145,7 +164,6 @@ export default function WaitersPage() {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="photo_url"
@@ -169,7 +187,6 @@ export default function WaitersPage() {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="phone"
@@ -190,7 +207,6 @@ export default function WaitersPage() {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="active"
@@ -225,10 +241,12 @@ export default function WaitersPage() {
                     <Button
                       type="submit"
                       className="flex-1"
-                      disabled={createMutation.isPending || updateMutation.isPending}
+                      disabled={
+                        createMutation.isPending || updateMutation.isPending
+                      }
                       data-testid="button-save-waiter"
                     >
-                      {(createMutation.isPending || updateMutation.isPending) ? (
+                      {createMutation.isPending || updateMutation.isPending ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Salvando...
@@ -269,13 +287,18 @@ export default function WaitersPage() {
                         {waiter.name.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    
+
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2 mb-1">
-                        <h3 className="font-semibold text-lg" data-testid={`text-waiter-name-${waiter.id}`}>
+                        <h3
+                          className="font-semibold text-lg"
+                          data-testid={`text-waiter-name-${waiter.id}`}
+                        >
                           {waiter.name}
                         </h3>
-                        <Badge variant={waiter.active ? "default" : "secondary"}>
+                        <Badge
+                          variant={waiter.active ? "default" : "secondary"}
+                        >
                           {waiter.active ? "Ativo" : "Inativo"}
                         </Badge>
                       </div>
